@@ -9,14 +9,25 @@ package gp9tp6;
  * @author agust
  */
 public class Producto {
-    private String nombre;
-    private String categoria;
-    private double precio;
+     private String categoria;
+     private String nombre;
+     private double precio;
 
-    public Producto(String nombre, String categoria, double precio) {
-        this.nombre = nombre;
+    public Producto(String categoria,String nombre,double precio){
         this.categoria = categoria;
+        this.nombre = nombre;
         this.precio = precio;
+    }
+
+    public Producto() {
+    }
+
+    public String getCategoria(){
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public String getNombre() {
@@ -27,14 +38,6 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
     public double getPrecio() {
         return precio;
     }
@@ -43,6 +46,7 @@ public class Producto {
         this.precio = precio;
     }
 
+   
     @Override
     public String toString() {
         return "Producto{" + "Nombre " + nombre + ", Categoria " + categoria + ", Precio " + precio + '}';

@@ -5,17 +5,22 @@
  */
 package gp9tp6;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author maria
  */
 public class GestionDeProductos extends javax.swing.JFrame {
-
+private DefaultTableModel modelo=new DefaultTableModel();
     /**
      * Creates new form GestionDeProductos
      */
     public GestionDeProductos() {
         initComponents();
+        armarCabecera();
+        
     }
 
     /**
@@ -53,9 +58,15 @@ public class GestionDeProductos extends javax.swing.JFrame {
 
         jBAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gp9tp6/icons8-carrito-de-compras-48.png"))); // NOI18N
         jBAgregar.setText("Agregar");
+        jBAgregar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jBAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jBAgregarMouseClicked(evt);
+            }
+        });
+        jBAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAgregarActionPerformed(evt);
             }
         });
 
@@ -96,7 +107,7 @@ public class GestionDeProductos extends javax.swing.JFrame {
                     .addComponent(jCCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
@@ -120,6 +131,7 @@ public class GestionDeProductos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTabProductos);
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gp9tp6/icons8-producto-50.png"))); // NOI18N
         jLabel4.setText("Gestion de Productos");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -127,26 +139,23 @@ public class GestionDeProductos extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(142, Short.MAX_VALUE)
+                .addContainerGap(72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
+                .addGap(57, 57, 57)
                 .addComponent(jLabel4)
-                .addGap(51, 51, 51)
+                .addGap(58, 58, 58)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
 
         pack();
@@ -160,6 +169,27 @@ public class GestionDeProductos extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jBAgregarMouseClicked
+
+    private void jBAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAgregarActionPerformed
+        // TODO add your handling code here:
+        if(jTNombre.getText().isEmpty()|jTPrecio.getText().isEmpty()){
+        JOptionPane.showMessageDialog(this, "Los campos esta vacíos");
+        return;
+        }
+        try{
+        String categoria =(String)jCCategoria.getSelectedItem();
+        String nombre=jTNombre.getText();
+        double precio=Double.parseDouble(jTPrecio.getText());
+        Producto producto=new Producto(categoria,nombre,precio);
+        cargarDatos(producto);
+        }catch(NumberFormatException e){
+        JOptionPane.showMessageDialog(this, "Ingrese un numero");
+        }
+      jTNombre.setText("");
+      jTPrecio.setText("");
+        
+        
+    }//GEN-LAST:event_jBAgregarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -194,6 +224,7 @@ public class GestionDeProductos extends javax.swing.JFrame {
                 new GestionDeProductos().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -209,4 +240,21 @@ public class GestionDeProductos extends javax.swing.JFrame {
     private javax.swing.JTextField jTPrecio;
     private javax.swing.JTable jTabProductos;
     // End of variables declaration//GEN-END:variables
+public void armarCabecera(){
+modelo.addColumn("Categoria");
+modelo.addColumn("Nombre");
+modelo.addColumn("Precio");
+jTabProductos.setModel(modelo);
+
 }
+public void cargarDatos(Producto producto){
+
+modelo.addRow(new Object[]{producto.getCategoria(),producto.getNombre(),producto.getPrecio()});
+
+
+
+}
+
+}
+
+
