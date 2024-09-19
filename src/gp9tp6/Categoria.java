@@ -6,7 +6,7 @@
 package gp9tp6;
 
 /**
- *
+ *asasdas
  * @author maria
  */
 public enum Categoria {
